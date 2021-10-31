@@ -120,4 +120,16 @@ public class DisplayManager {
 	public boolean isResized() {
 		return resized;
 	}
+	
+	public void setResized(boolean newResized) {
+		resized = newResized;
+	}
+	
+	public int getWidth() {
+		return width;
+	}
+	
+	public int getHeight() {
+		return height;
+	}
 }

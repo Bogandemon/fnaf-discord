@@ -9,7 +9,7 @@ import render.MasterRenderer;
 
 public class Test implements GameLogic {
 	
-	private float color = 0.5f;
+	private float color = 0.0f;
 	private final MasterRenderer renderer;
 	private int direction = 0;
 	
@@ -52,6 +52,11 @@ public class Test implements GameLogic {
 	@Override
 	public void render(DisplayManager displayWindow) {
 		displayWindow.setClearColor(color, color, color, 0.0f);
-		renderer.clear();
+		renderer.render(displayWindow);
+	}
+	
+	@Override
+	public void cleanup() {
+		renderer.cleanup();
 	}
 }
