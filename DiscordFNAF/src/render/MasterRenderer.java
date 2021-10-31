@@ -3,7 +3,7 @@
  * Programmer: Kyle Dryden
  * Version: Java 14 (JDK and JRE), LWJGL 3.2.3
  * Date: 29/10/2021
- * Description:
+ * Description: Handles the main renderering logic to the screen for the graphics.
  */
 
 package render;

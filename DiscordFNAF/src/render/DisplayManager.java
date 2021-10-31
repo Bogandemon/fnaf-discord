@@ -41,11 +41,14 @@ public class DisplayManager {
 			throw new IllegalStateException("Unable to initialise GLFW");
 		}
 		
+		//Collection of window hints for things such as resizing and compatability for all operating systems. Needs to be done before creating.
 		glfwWindowHint(GLFW_VISIBLE, GL_FALSE);
 		glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
 		glfwWindowHint(GLFW_FLOATING, GL_TRUE);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+		glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 		
 		window = glfwCreateWindow(width, height, title, NULL, NULL);
 		
@@ -56,6 +59,7 @@ public class DisplayManager {
 		glfwSetFramebufferSizeCallback(window, (window, width, height) -> {
 			DisplayManager.width = width;
 			DisplayManager.height = height;
+			DisplayManager.resized = true;
 		});
 		
 		//Sets up key callback, which is used for keyboard functionality (pressing, holding, releasing, etc).
@@ -86,32 +90,34 @@ public class DisplayManager {
 		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 	}
 	
+	//Sets the appropriate clear colour.
 	public void setClearColor(float r, float g, float b, float alpha) {
 		glClearColor(r, g, b, alpha);
 	}
 	
+	//Method for checking if a key is pressed and what key.
 	public boolean isKeyPressed(int keyCode) {
 		return glfwGetKey(window, keyCode) == GLFW_PRESS;
 	}
 	
+	//Function for closing the window.
 	public boolean windowShouldClose() {
 		return glfwWindowShouldClose(window);
 	}
 	
+	//Updates the window appropriately and polls for events
 	public void update() {
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
 	
+	//Checks if vSync is active.
 	public boolean isVsync() {
 		return vSync;
 	}
 	
+	//Checks if window has been resized.
 	public boolean isResized() {
 		return resized;
-	}
-	
-	public void setResized(boolean resized) {
-		DisplayManager.resized = resized;
 	}
 }

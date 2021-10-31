@@ -11,14 +11,17 @@ package engine;
 public class Timer {
 	private double lastLoopTime;
 	
+	//Initialises the time.
 	public void init() {
 		lastLoopTime = getTime();
 	}
 	
+	//Gets the current time of the timeslice.
 	public double getTime() {
 		return System.nanoTime() / 1_000_000_000.0;
 	}
 	
+	//Gets the amount of time that has passed in a given time slice.
 	public float getElapsedTime() {
 		double time = getTime();
 		float elapsedTime = (float) (time - lastLoopTime);

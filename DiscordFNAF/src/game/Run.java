@@ -13,7 +13,7 @@ import engine.GameLogic;
 
 public class Run {
 	
-	//Default width and height values for the screen render.
+	//Default values for the game engine currently being used.
 	static final String title  = "Discord FNAF";
 	static int displayWidth = 800;
 	static int displayHeight = 600;
@@ -21,7 +21,7 @@ public class Run {
 	
 	public static void main(String[] args) {
 		try {
-			GameLogic gameLogic = new Test();
+			GameLogic gameLogic = new Test(); //Gamelogic. Swapped for every different 'game'.
 			GameEngine gameEngine = new GameEngine(title, displayWidth, displayHeight, vSync, gameLogic);
 			gameEngine.run();
 			
