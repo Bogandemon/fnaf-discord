@@ -10,15 +10,23 @@ package shaders;
 
 import static org.lwjgl.opengl.GL20.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.joml.Matrix4f;
+import org.lwjgl.system.MemoryStack;
+
 public class ShaderProgram {
 	
 	private final int programId; //Int variable for the main program shader.
 	private int vertexShaderId; //Int variable for the vertex shader id.
 	private int fragmentShaderId; //Int variable for the fragment shader id.
+	private final Map<String, Integer> uniforms;
 	
 	//Constructor for creating the shader program and returning an error if needed.
 	public ShaderProgram() throws Exception {
 		programId = glCreateProgram();
+		uniforms = new HashMap<>();
 		
 		if (programId == 0) {
 			throw new Exception("Could not create shader.");
@@ -98,6 +106,22 @@ public class ShaderProgram {
 		
 		if (programId != 0) {
 			glDeleteProgram(programId);
+		}
+	}
+	
+	public void createUniform(String uniformName) throws Exception {
+		int uniformLocation = glGetUniformLocation(programId, uniformName);
+		
+		if (uniformLocation < 0) {
+			throw new Exception("Could not find uniform " + uniformName);
+		}
+		
+		uniforms.put(uniformName, uniformLocation);
+	}
+	
+	public void setUniform(String uniformName, Matrix4f value) {
+		try (MemoryStack stack = MemoryStack.stackPush()) {
+			glUniformMatrix4fv(uniforms.get(uniformName), false, value.get(stack.mallocFloat(16)));
 		}
 	}
 }

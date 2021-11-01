@@ -11,7 +11,7 @@ package engine;
 import render.DisplayManager;
 
 public interface GameLogic {
-	void init() throws Exception; //Initialisation function for creating any basic variables.
+	void init(DisplayManager displayWindow) throws Exception; //Initialisation function for creating any basic variables.
 	void input(DisplayManager displayWindow); //Input function for any form of input (such as escape for getting out of the game, or movement).
 	void update(float interval); //Update function which will be used to update graphic placements and respond to inputs.
 	void render(DisplayManager displayWindow); //Render function which will render all of the information given to the screen.

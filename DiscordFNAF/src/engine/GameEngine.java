@@ -42,7 +42,7 @@ public class GameEngine implements Runnable {
 	private void init() throws Exception {
 		DisplayManager.init();
 		timer.init();
-		gameLogic.init();
+		gameLogic.init(displayWindow);
 	}
 	
 	//Gameloop function that will take care of all of the information for the game to render to the screen.
