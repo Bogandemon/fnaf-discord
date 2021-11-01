@@ -21,7 +21,7 @@ public class Run {
 	
 	public static void main(String[] args) {
 		try {
-			GameLogic gameLogic = new Test(); //Gamelogic. Swapped for every different 'game'.
+			GameLogic gameLogic = new MainLogic(); //Gamelogic. Swapped for every different 'game'.
 			GameEngine gameEngine = new GameEngine(title, displayWidth, displayHeight, vSync, gameLogic);
 			gameEngine.run();
 			
