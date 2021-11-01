@@ -121,14 +121,17 @@ public class DisplayManager {
 		return resized;
 	}
 	
+	//Changes boolean value for if the window is resized or not.
 	public void setResized(boolean newResized) {
 		resized = newResized;
 	}
 	
+	//Obtains the width value of the screen.
 	public int getWidth() {
 		return width;
 	}
 	
+	//Obtains the height value of the screen.
 	public int getHeight() {
 		return height;
 	}

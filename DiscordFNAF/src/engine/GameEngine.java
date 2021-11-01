@@ -12,7 +12,7 @@ import render.DisplayManager;
 
 public class GameEngine implements Runnable {
 	
-	public static final int TARGET_FPS = 60;
+	public static final int TARGET_FPS = 60; //Variable that keeps track of target FPS.
 	public static final int TARGET_UPS = 30;
 	
 	private final DisplayManager displayWindow;
@@ -103,6 +103,7 @@ public class GameEngine implements Runnable {
 		displayWindow.update();
 	}
 	
+	//Cleans up all segments involved.
 	private void cleanup() {
 		gameLogic.cleanup();
 	}

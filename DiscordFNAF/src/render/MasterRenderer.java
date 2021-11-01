@@ -35,29 +35,35 @@ import static org.lwjgl.opengl.GL30.glDeleteVertexArrays;
 
 public class MasterRenderer {
 	
-	private int vaoId;
-	private int vboId;
-	private ShaderProgram shaderProgram;
+	private int vaoId; //Int variable for the vaoId (Vertex Array Object).
+	private int vboId; //Int variable for the vboId (Vertex Buffer Object).
+	private ShaderProgram shaderProgram; //ShaderProgram variable that is used to create and combine the shaders.
 	
 	public MasterRenderer() {
 		
 	}
 	
+	//Initialises the master renderer (creates shader program and binds vao and vbo to be used).
 	public void init() throws Exception {
+		
+		//Creates shader program and creates/links the both the vertex and fragment shaders.
 		shaderProgram = new ShaderProgram();
 		shaderProgram.createVertexShader(Resources.loadResource("/vertex.vs"));
 		shaderProgram.createFragmentShader(Resources.loadResource("/fragment.fs"));
 		shaderProgram.link();
 		
+		//Triangle vertices.
 		float[] vertices = new float[] {
 			0.0f, 0.5f, 0.0f,
 		    -0.5f, -0.5f, 0.0f,
 		    0.5f, -0.5f, 0.0f
 		};
 		
-		FloatBuffer verticesBuffer = null;
+		FloatBuffer verticesBuffer = null; //Variable that will be allocated onto the graphics card memory.
 		
 		try {
+			
+			//Allocates space in memory and places the triangle vertices in the buffer.
 			verticesBuffer = MemoryUtil.memAllocFloat(vertices.length);
 			verticesBuffer.put(vertices).flip();
 		
@@ -74,6 +80,7 @@ public class MasterRenderer {
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
 			glBindVertexArray(0);
 			
+		//Finally statements that frees up the space in the off-heap memory after the verticesBuffer is finished being used.	
 		} finally {
 			if (verticesBuffer != null) {
 			MemoryUtil.memFree(verticesBuffer);
@@ -81,10 +88,12 @@ public class MasterRenderer {
 		}
 	}
 	
+	//Currently clears the colour buffer.
 	public void clear() {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 	
+	//Renders the displayWindow with the shaderProgram and vaos/vbos.
 	public void render(DisplayManager displayWindow) {
 		clear();
 		
@@ -102,11 +111,15 @@ public class MasterRenderer {
 		shaderProgram.unbind();
 	}
 	
+	//Cleanup method for when the gameloop finishes.
 	public void cleanup() {
+		
+		//Cleans up the main shader program.
 		if (shaderProgram != null) {
 			shaderProgram.cleanup();
 		}
 		
+		//Disables, unbinds, and deletes the VBO and VAOs.
 		glDisableVertexAttribArray(0);
 		
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
