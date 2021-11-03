@@ -9,7 +9,7 @@
 package game;
 
 import engine.GameEngine;
-import engine.GameLogic;
+import interfaces.GameLogic;
 
 public class Run {
 	

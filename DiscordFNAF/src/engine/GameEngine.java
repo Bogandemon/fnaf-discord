@@ -8,7 +8,7 @@
 
 package engine;
 
-import render.DisplayManager;
+import interfaces.GameLogic;
 
 public class GameEngine implements Runnable {
 	

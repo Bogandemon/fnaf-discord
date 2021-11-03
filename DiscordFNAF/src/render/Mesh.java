@@ -76,6 +76,12 @@ public class Mesh {
 		}
 	}
 	
+	public void render() {
+		glBindVertexArray(getVaoId());
+		glDrawElements(GL_TRIANGLES, getVertexCount(), GL_UNSIGNED_INT, 0);
+		glBindVertexArray(0);
+	}
+	
 	//Returns the VAO ID.
 	public int getVaoId() {
 		return vaoId;

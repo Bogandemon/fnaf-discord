@@ -6,7 +6,7 @@
  * Description: Initialises and keeps track of display window properties, such as resizing and vsync.
  */
 
-package render;
+package engine;
 
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
@@ -88,6 +88,8 @@ public class DisplayManager {
 		glfwShowWindow(window);
 		GL.createCapabilities(); //Important line for setting the context for GLFW and openGL. Allows for openGL bindings to be used.
 		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+		
+		glEnable(GL_DEPTH_TEST);
 	}
 	
 	//Sets the appropriate clear colour.

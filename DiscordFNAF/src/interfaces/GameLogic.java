@@ -6,9 +6,9 @@
  * Description: Interface used for different game logics (mainly used for different games/projects).
  */
 
-package engine;
+package interfaces;
 
-import render.DisplayManager;
+import engine.DisplayManager;
 
 public interface GameLogic {
 	void init(DisplayManager displayWindow) throws Exception; //Initialisation function for creating any basic variables.
