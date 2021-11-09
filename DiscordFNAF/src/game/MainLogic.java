@@ -2,7 +2,7 @@
  * Classname: MainLogic
  * Programmer: Kyle Dryden
  * Version: Java 14 (JDK and JRE), LWJGL 3.2.3
- * Date: 29/10/2021
+ * Date: 10/11/2021
  * Description: Logic class that combines the renderer and the game objects to create the logic for the game.
  */
 
@@ -15,13 +15,11 @@ package game;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_DOWN;
 import static org.lwjgl.glfw.GLFW.GLFW_KEY_UP;
 
-import org.joml.Vector3f;
-
 import engine.DisplayManager;
 import interfaces.GameLogic;
 import objects.GameItem;
+import objects.Mesh;
 import render.MasterRenderer;
-import render.Mesh;
 
 public class MainLogic implements GameLogic {
 	

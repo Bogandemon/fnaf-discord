@@ -2,11 +2,11 @@
  * Classname: Mesh
  * Programmer: Kyle Dryden
  * Version: Java 14 (JDK and JRE), LWJGL 3.2.3
- * Date: 29/10/2021
+ * Date: 10/11/2021
  * Description: Class that creates the vao and vbo objects (for further separation of concerns).
  */
 
-package render;
+package objects;
 
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
@@ -68,6 +68,7 @@ public class Mesh {
 			
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
 			glBindVertexArray(0);
+			
 		//Finally statements that frees up the space in the off-heap memory after the verticesBuffer is finished being used.	
 		} finally {
 			if (positionBuffer != null) {
@@ -76,6 +77,7 @@ public class Mesh {
 		}
 	}
 	
+	//Method for rendering the vertex array object with the vertex buffer objects.
 	public void render() {
 		glBindVertexArray(getVaoId());
 		glDrawElements(GL_TRIANGLES, getVertexCount(), GL_UNSIGNED_INT, 0);
@@ -99,6 +101,7 @@ public class Mesh {
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glDeleteBuffers(posVboId);
 		glDeleteBuffers(idxVboId);
+		glDeleteBuffers(colourVboId);
 				
 		glBindVertexArray(0);
 		glDeleteVertexArrays(vaoId);

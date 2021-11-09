@@ -2,7 +2,7 @@
  * Classname: MasterRenderer
  * Programmer: Kyle Dryden
  * Version: Java 14 (JDK and JRE), LWJGL 3.2.3
- * Date: 29/10/2021
+ * Date: 10/11/2021
  * Description: Handles the main renderering logic to the screen for the graphics.
  */
 
@@ -21,19 +21,16 @@ import static org.lwjgl.opengl.GL11.glClear;
 import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11.glViewport;
-import static org.lwjgl.opengl.GL11.glDrawElements;
-import static org.lwjgl.opengl.GL11.GL_TRIANGLES;
-import static org.lwjgl.opengl.GL11.GL_UNSIGNED_INT;
-import static org.lwjgl.opengl.GL30.glBindVertexArray;
 
 public class MasterRenderer {
 	
 	private ShaderProgram shaderProgram; //ShaderProgram variable that is used to create and combine the shaders.
-	private Transformation transformation;
-	private static final float FOV = (float) Math.toRadians(60.0f);
-	private static final float Z_NEAR = 0.01f;
-	private static final float Z_FAR = 1000.f;
+	private Transformation transformation; //Transformation used which combines both the FOV, Z_NEAR, and Z_FAR variables and the shaderProgram to create the two required matrices.
+	private static final float FOV = (float) Math.toRadians(60.0f); //Float variable for the field of view (how wide the camera can view).
+	private static final float Z_NEAR = 0.01f; //Float variable that defines what is considered the minimum distance of the truncated pyramid camera.
+	private static final float Z_FAR = 1000.f; //Float variable that defines what is considered the maximum distance for the pyramid.
 	
+	//Constructor which instantiates a new transformation.
 	public MasterRenderer() {
 		transformation = new Transformation();
 	}
@@ -47,6 +44,7 @@ public class MasterRenderer {
 		shaderProgram.createFragmentShader(Resources.loadResource("/fragment.fs"));
 		shaderProgram.link();
 		
+		//Creates the two uniform matrices and sets them up in the hashmap for accessing in the shader program.
 		shaderProgram.createUniform("projectionMatrix");
 		shaderProgram.createUniform("worldMatrix");
 	}
@@ -66,10 +64,12 @@ public class MasterRenderer {
 			displayWindow.setResized(false);	
 		}
 		
+		//Renders the projection matrix (sets up the camera to appropriately handle scaling and aspect ratio/FOV concepts).
 		shaderProgram.bind();
 		Matrix4f projectionMatrix = transformation.getProjectionMatrix(FOV, displayWindow.getWidth(), displayWindow.getHeight(), Z_NEAR, Z_FAR);
 		shaderProgram.setUniform("projectionMatrix", projectionMatrix);
 		
+		//For loop that renders each specific object into the game according to their own specific world matrix.
 		for (GameItem gameItem : gameItems) {
 			Matrix4f worldMatrix = transformation.getWorldMatrix(gameItem.getPosition(), gameItem.getRotation(), gameItem.getScale());
 			shaderProgram.setUniform("worldMatrix", worldMatrix);

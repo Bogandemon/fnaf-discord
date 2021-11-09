@@ -2,7 +2,7 @@
  * Classname: DisplayManager
  * Programmer: Kyle Dryden
  * Version: Java 14 (JDK and JRE), LWJGL 3.2.3
- * Date: 29/10/2021
+ * Date: 10/11/2021
  * Description: Initialises and keeps track of display window properties, such as resizing and vsync.
  */
 
@@ -85,11 +85,11 @@ public class DisplayManager {
 		}
 		
 		
-		glfwShowWindow(window);
+		glfwShowWindow(window); //Shows the window result.
 		GL.createCapabilities(); //Important line for setting the context for GLFW and openGL. Allows for openGL bindings to be used.
-		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+		glClearColor(0.0f, 0.0f, 0.0f, 0.0f); //Clears colour buffer.
+		glEnable(GL_DEPTH_TEST); //Important line for enabling the depth order and depth testing.
 		
-		glEnable(GL_DEPTH_TEST);
 	}
 	
 	//Sets the appropriate clear colour.

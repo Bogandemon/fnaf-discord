@@ -2,8 +2,8 @@
  * Classname: ShaderProgram
  * Programmer: Kyle Dryden
  * Version: Java 14 (JDK and JRE), LWJGL 3.2.3
- * Date: 29/10/2021
- * Description: Creates and combines the shaders used during the programmable graphics pipeline (vertex and fragment shaders).
+ * Date: 10/11/2021
+ * Description: Creates and combines the shaders used during the programmable graphics pipeline (vertex shader, fragment shader, and uniforms).
  */
 
 package shaders;
@@ -21,7 +21,7 @@ public class ShaderProgram {
 	private final int programId; //Int variable for the main program shader.
 	private int vertexShaderId; //Int variable for the vertex shader id.
 	private int fragmentShaderId; //Int variable for the fragment shader id.
-	private final Map<String, Integer> uniforms;
+	private final Map<String, Integer> uniforms; //Hashmap variable used to hold the projection and world matrices.
 	
 	//Constructor for creating the shader program and returning an error if needed.
 	public ShaderProgram() throws Exception {
@@ -109,6 +109,7 @@ public class ShaderProgram {
 		}
 	}
 	
+	//Method for creating the uniform mapping. Sets the name and gives it a location according to the program.
 	public void createUniform(String uniformName) throws Exception {
 		int uniformLocation = glGetUniformLocation(programId, uniformName);
 		
@@ -119,6 +120,7 @@ public class ShaderProgram {
 		uniforms.put(uniformName, uniformLocation);
 	}
 	
+	//Sets the uniform by putting the uniform in memory, specifically on the stack (quicker and briefer access).
 	public void setUniform(String uniformName, Matrix4f value) {
 		try (MemoryStack stack = MemoryStack.stackPush()) {
 			glUniformMatrix4fv(uniforms.get(uniformName), false, value.get(stack.mallocFloat(16)));

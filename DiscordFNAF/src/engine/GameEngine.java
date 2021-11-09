@@ -2,7 +2,7 @@
  * Classname: GameEngine
  * Programmer: Kyle Dryden
  * Version: Java 14 (JDK and JRE), LWJGL 3.2.3
- * Date: 29/10/2021
+ * Date: 10/11/2021
  * Description: Major class that houses the primary while loop and contacts all other classes for a compiled project, such as the renderer, the game logic, and the display manager.
  */
 
@@ -15,9 +15,9 @@ public class GameEngine implements Runnable {
 	public static final int TARGET_FPS = 60; //Variable that keeps track of target FPS.
 	public static final int TARGET_UPS = 30;
 	
-	private final DisplayManager displayWindow;
-	private final GameLogic gameLogic;
-	private final Timer timer;
+	private final DisplayManager displayWindow; //Variable that creates the window with various settings (AP, title, vSync).
+	private final GameLogic gameLogic; //Variable that handles the gamelogic.
+	private final Timer timer; //Variable that handles the timer (for vSync and proper framerate/no screen tearing).
 	
 	public GameEngine(String windowTitle, int width, int height, boolean vSync, GameLogic gameLogic) throws Exception {
 		displayWindow = new DisplayManager(windowTitle, width, height, vSync);
