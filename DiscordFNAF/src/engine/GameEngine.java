@@ -18,11 +18,13 @@ public class GameEngine implements Runnable {
 	private final DisplayManager displayWindow; //Variable that creates the window with various settings (AP, title, vSync).
 	private final GameLogic gameLogic; //Variable that handles the gamelogic.
 	private final Timer timer; //Variable that handles the timer (for vSync and proper framerate/no screen tearing).
+	private MouseInput mouseInput;
 	
 	public GameEngine(String windowTitle, int width, int height, boolean vSync, GameLogic gameLogic) throws Exception {
 		displayWindow = new DisplayManager(windowTitle, width, height, vSync);
 		this.gameLogic = gameLogic;
 		timer = new Timer();
+		mouseInput = new MouseInput();
 	}
 	
 	//Run class used to initialise the game engine and gameloop.
@@ -43,6 +45,7 @@ public class GameEngine implements Runnable {
 		DisplayManager.init();
 		timer.init();
 		gameLogic.init(displayWindow);
+		mouseInput = new MouseInput();
 	}
 	
 	//Gameloop function that will take care of all of the information for the game to render to the screen.
@@ -89,12 +92,13 @@ public class GameEngine implements Runnable {
 	
 	//Private method used to check for inputs from the gamelogic.
 	private void input() {
-		gameLogic.input(displayWindow);
+		mouseInput.input(displayWindow);
+		gameLogic.input(displayWindow, mouseInput);
 	}
 	
 	//Private method used to check for updates from the gamelogic.
 	private void update(float interval) {
-		gameLogic.update(interval);
+		gameLogic.update(interval, mouseInput);
 	}
 	
 	//Private method used to check for anything to be rendered from the gamelogic.

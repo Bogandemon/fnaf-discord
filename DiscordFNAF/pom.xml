@@ -65,6 +65,12 @@
 			<groupId>org.lwjgl</groupId>
 			<artifactId>lwjgl-jemalloc</artifactId>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.joml</groupId>
+			<artifactId>joml</artifactId>
+			<version>${joml.version}</version>
+		</dependency>
 	
 		<dependency>
 			<groupId>org.lwjgl</groupId>
@@ -175,144 +181,161 @@
 			<groupId>org.lwjgl</groupId>
 			<artifactId>lwjgl</artifactId>
 			<classifier>${lwjgl.natives}</classifier>
+			<scope>runtime</scope>
 		</dependency>
 	
 		<dependency>
 			<groupId>org.lwjgl</groupId>
 			<artifactId>lwjgl-assimp</artifactId>
 			<classifier>${lwjgl.natives}</classifier>
+			<scope>runtime</scope>
 		</dependency>
 	
 		<dependency>
 			<groupId>org.lwjgl</groupId>
 			<artifactId>lwjgl-bgfx</artifactId>
 			<classifier>${lwjgl.natives}</classifier>
+			<scope>runtime</scope>
 		</dependency>
 	
 		<dependency>
 			<groupId>org.lwjgl</groupId>
 			<artifactId>lwjgl-glfw</artifactId>
 			<classifier>${lwjgl.natives}</classifier>
+			<scope>runtime</scope>
 		</dependency>
 	
 		<dependency>
 			<groupId>org.lwjgl</groupId>
 			<artifactId>lwjgl-jemalloc</artifactId>
 			<classifier>${lwjgl.natives}</classifier>
+			<scope>runtime</scope>
 		</dependency>
 	
 		<dependency>
 			<groupId>org.lwjgl</groupId>
 			<artifactId>lwjgl-llvm</artifactId>
 			<classifier>${lwjgl.natives}</classifier>
+			<scope>runtime</scope>
 		</dependency>
 	
 		<dependency>
 			<groupId>org.lwjgl</groupId>
 			<artifactId>lwjgl-meow</artifactId>
 			<classifier>${lwjgl.natives}</classifier>
+			<scope>runtime</scope>
 		</dependency>
 	
 		<dependency>
 			<groupId>org.lwjgl</groupId>
 			<artifactId>lwjgl-nanovg</artifactId>
 			<classifier>${lwjgl.natives}</classifier>
+			<scope>runtime</scope>
 		</dependency>
 	
 		<dependency>
 			<groupId>org.lwjgl</groupId>
 			<artifactId>lwjgl-nfd</artifactId>
 			<classifier>${lwjgl.natives}</classifier>
+			<scope>runtime</scope>
 		</dependency>
 	
 		<dependency>
 			<groupId>org.lwjgl</groupId>
 			<artifactId>lwjgl-openal</artifactId>
 			<classifier>${lwjgl.natives}</classifier>
+			<scope>runtime</scope>
 		</dependency>
 	
 		<dependency>
 			<groupId>org.lwjgl</groupId>
 			<artifactId>lwjgl-opengl</artifactId>
 			<classifier>${lwjgl.natives}</classifier>
+			<scope>runtime</scope>
 		</dependency>
 	
 		<dependency>
 			<groupId>org.lwjgl</groupId>
 			<artifactId>lwjgl-opengles</artifactId>
 			<classifier>${lwjgl.natives}</classifier>
+			<scope>runtime</scope>
 		</dependency>
 	
 		<dependency>
 			<groupId>org.lwjgl</groupId>
 			<artifactId>lwjgl-opus</artifactId>
 			<classifier>${lwjgl.natives}</classifier>
+			<scope>runtime</scope>
 		</dependency>
 	
 		<dependency>
 			<groupId>org.lwjgl</groupId>
 			<artifactId>lwjgl-ovr</artifactId>
 			<classifier>${lwjgl.natives}</classifier>
+			<scope>runtime</scope>
 		</dependency>
 	
 		<dependency>
 			<groupId>org.lwjgl</groupId>
 			<artifactId>lwjgl-par</artifactId>
 			<classifier>${lwjgl.natives}</classifier>
+			<scope>runtime</scope>
 		</dependency>
 	
 		<dependency>
 			<groupId>org.lwjgl</groupId>
 			<artifactId>lwjgl-remotery</artifactId>
 			<classifier>${lwjgl.natives}</classifier>
+			<scope>runtime</scope>
 		</dependency>
 	
 		<dependency>
 			<groupId>org.lwjgl</groupId>
 			<artifactId>lwjgl-rpmalloc</artifactId>
 			<classifier>${lwjgl.natives}</classifier>
+			<scope>runtime</scope>
 		</dependency>
 	
 		<dependency>
 			<groupId>org.lwjgl</groupId>
 			<artifactId>lwjgl-shaderc</artifactId>
 			<classifier>${lwjgl.natives}</classifier>
+			<scope>runtime</scope>
 		</dependency>
 	
 		<dependency>
 			<groupId>org.lwjgl</groupId>
 			<artifactId>lwjgl-sse</artifactId>
 			<classifier>${lwjgl.natives}</classifier>
+			<scope>runtime</scope>
 		</dependency>
 	
 		<dependency>
 			<groupId>org.lwjgl</groupId>
 			<artifactId>lwjgl-stb</artifactId>
 			<classifier>${lwjgl.natives}</classifier>
+			<scope>runtime</scope>
 		</dependency>
-	
+		
 		<dependency>
 			<groupId>org.lwjgl</groupId>
 			<artifactId>lwjgl-tinyfd</artifactId>
 			<classifier>${lwjgl.natives}</classifier>
+			<scope>runtime</scope>
 		</dependency>
 		
 		<dependency>
 			<groupId>org.lwjgl</groupId>
 			<artifactId>lwjgl-vma</artifactId>
 			<classifier>${lwjgl.natives}</classifier>
+			<scope>runtime</scope>
 		</dependency>
 		
 		<dependency>
 			<groupId>org.lwjgl</groupId>
 			<artifactId>lwjgl-xxhash</artifactId>
 			<classifier>${lwjgl.natives}</classifier>
-		</dependency>
-		
-		<dependency>
-			<groupId>org.joml</groupId>
-			<artifactId>joml</artifactId>
-			<version>${joml.version}</version>
+			<scope>runtime</scope>
 		</dependency>
 	</dependencies>
 </project>

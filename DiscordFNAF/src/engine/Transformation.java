@@ -13,14 +13,18 @@ package engine;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
+import objects.GameItem;
+
 public class Transformation {
 	private final Matrix4f projectionMatrix; //Matrix for the projection matrix.
-	private final Matrix4f worldMatrix; //Matrix for the world matrix.
+	private final Matrix4f viewMatrix;
+	private final Matrix4f modelViewMatrix;
 	
 	//Creates the transformation object and instantiates both matrices.
 	public Transformation() {
 		projectionMatrix = new Matrix4f();
-		worldMatrix = new Matrix4f();
+		viewMatrix = new Matrix4f();
+		modelViewMatrix = new Matrix4f();
 	}
 	
 	//Retrieves the projection matrix, which is used to take care of the aspect ratio and for scaling objects appropriately.
@@ -28,12 +32,26 @@ public class Transformation {
 		return projectionMatrix.setPerspective(fov, width/height, zNear, zFar);
 	}
 	
-	//Retrieves and properly creates the world matrix, which takes care of translation, rotation, and scaling.
-	public Matrix4f getWorldMatrix(Vector3f offset, Vector3f rotation, float scale) {
-		return worldMatrix.translation(offset).
-			rotateX((float)Math.toRadians(rotation.x)).
-			rotateY((float)Math.toRadians(rotation.y)).
-			rotateZ((float)Math.toRadians(rotation.z)).
-			scale(scale);
+	public Matrix4f getModelViewMatrix(GameItem gameItem, Matrix4f viewMatrix) {
+		Vector3f gIRotation = gameItem.getRotation();
+		
+		modelViewMatrix.set(viewMatrix).translate(gameItem.getPosition()).
+					    rotateX((float) Math.toRadians(-gIRotation.x)).
+					    rotateY((float) Math.toRadians(-gIRotation.y)).
+					    rotateZ((float) Math.toRadians(-gIRotation.z)).
+					    scale(gameItem.getScale());
+		
+		return modelViewMatrix;
+	}
+	
+	public Matrix4f getViewMatrix(Camera camera) {
+		Vector3f camPosition= camera.getPosition();
+		Vector3f camRotation = camera.getRotation();
+		
+		viewMatrix.identity();
+		viewMatrix.rotate((float) Math.toRadians(camRotation.x), new Vector3f(1, 0, 0))
+				  .rotate((float) Math.toRadians(camRotation.y), new Vector3f(0, 1, 0));
+		viewMatrix.translate(-camPosition.x, -camPosition.y, -camPosition.z);
+		return viewMatrix;
 	}
 }

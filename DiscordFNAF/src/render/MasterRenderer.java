@@ -13,6 +13,7 @@ import shaders.ShaderProgram;
 
 import org.joml.Matrix4f;
 
+import engine.Camera;
 import engine.DisplayManager;
 import engine.Transformation;
 import objects.GameItem;
@@ -46,7 +47,8 @@ public class MasterRenderer {
 		
 		//Creates the two uniform matrices and sets them up in the hashmap for accessing in the shader program.
 		shaderProgram.createUniform("projectionMatrix");
-		shaderProgram.createUniform("worldMatrix");
+		shaderProgram.createUniform("modelViewMatrix");
+		shaderProgram.createUniform("texture_sampler");
 	}
 		
 	
@@ -56,7 +58,7 @@ public class MasterRenderer {
 	}
 	
 	//Renders the displayWindow with the shaderProgram and vaos/vbos.
-	public void render(DisplayManager displayWindow, GameItem[] gameItems) {
+	public void render(DisplayManager displayWindow, GameItem[] gameItems, Camera camera) {
 		clear();
 		
 		if (displayWindow.isResized()) {
@@ -68,11 +70,14 @@ public class MasterRenderer {
 		shaderProgram.bind();
 		Matrix4f projectionMatrix = transformation.getProjectionMatrix(FOV, displayWindow.getWidth(), displayWindow.getHeight(), Z_NEAR, Z_FAR);
 		shaderProgram.setUniform("projectionMatrix", projectionMatrix);
+		shaderProgram.setUniform("texture_sampler", 0);
+		
+		Matrix4f viewMatrix = transformation.getViewMatrix(camera);
 		
 		//For loop that renders each specific object into the game according to their own specific world matrix.
 		for (GameItem gameItem : gameItems) {
-			Matrix4f worldMatrix = transformation.getWorldMatrix(gameItem.getPosition(), gameItem.getRotation(), gameItem.getScale());
-			shaderProgram.setUniform("worldMatrix", worldMatrix);
+			Matrix4f modelViewMatrix = transformation.getModelViewMatrix(gameItem, viewMatrix);
+			shaderProgram.setUniform("modelViewMatrix", modelViewMatrix);
 			gameItem.getMesh().render();
 		}
 		

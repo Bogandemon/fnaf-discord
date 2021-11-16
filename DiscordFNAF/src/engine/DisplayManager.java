@@ -137,4 +137,8 @@ public class DisplayManager {
 	public int getHeight() {
 		return height;
 	}
+	
+	public long getHandle() {
+		return window;
+	}
 }
