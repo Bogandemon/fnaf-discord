@@ -91,12 +91,6 @@ public class DisplayManager {
 		glEnable(GL_DEPTH_TEST); //Important line for enabling the depth order and depth testing.
 		
 	}
-	
-	//Sets the appropriate clear colour.
-	public void setClearColor(float r, float g, float b, float alpha) {
-		glClearColor(r, g, b, alpha);
-	}
-	
 	//Method for checking if a key is pressed and what key.
 	public boolean isKeyPressed(int keyCode) {
 		return glfwGetKey(window, keyCode) == GLFW_PRESS;
@@ -138,6 +132,7 @@ public class DisplayManager {
 		return height;
 	}
 	
+	//Obtains the long window variable (used in the camera).
 	public long getHandle() {
 		return window;
 	}

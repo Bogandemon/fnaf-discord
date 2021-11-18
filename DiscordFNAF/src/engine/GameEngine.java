@@ -45,7 +45,7 @@ public class GameEngine implements Runnable {
 		DisplayManager.init();
 		timer.init();
 		gameLogic.init(displayWindow);
-		mouseInput = new MouseInput();
+		mouseInput.init(displayWindow);
 	}
 	
 	//Gameloop function that will take care of all of the information for the game to render to the screen.
