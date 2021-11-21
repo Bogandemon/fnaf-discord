@@ -2,7 +2,7 @@
  * Classname: MasterRenderer
  * Programmer: Kyle Dryden
  * Version: Java 14 (JDK and JRE), LWJGL 3.2.3
- * Date: 10/11/2021
+ * Date: 22/11/2021
  * Description: Handles the main renderering logic to the screen for the graphics.
  */
 
@@ -69,9 +69,11 @@ public class MasterRenderer {
 		//Renders the projection matrix (sets up the camera to appropriately handle scaling and aspect ratio/FOV concepts).
 		shaderProgram.bind();
 		Matrix4f projectionMatrix = transformation.getProjectionMatrix(FOV, displayWindow.getWidth(), displayWindow.getHeight(), Z_NEAR, Z_FAR);
+		
 		shaderProgram.setUniform("projectionMatrix", projectionMatrix);
 		shaderProgram.setUniform("texture_sampler", 0);
 		
+		//Obtains the view matrix (for the camera movement).
 		Matrix4f viewMatrix = transformation.getViewMatrix(camera);
 		
 		//For loop that renders each specific object into the game according to their own specific world matrix.

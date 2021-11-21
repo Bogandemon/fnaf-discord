@@ -2,7 +2,7 @@
  * Classname: Mesh
  * Programmer: Kyle Dryden
  * Version: Java 14 (JDK and JRE), LWJGL 3.2.3
- * Date: 16/11/2021
+ * Date: 22/11/2021
  * Description: Class that creates the vao and vbo objects (for further separation of concerns).
  */
 
@@ -24,13 +24,13 @@ import static org.lwjgl.opengl.GL30.*;
 public class Mesh {
 	private final int vaoId; //VAO that combines all of the VBOs together as a wrapper.
 	private final int vertexCount; //Int variable that holds the total number of vertices in a given mesh.
-	private final Texture texture;
-	private final List<Integer> vboIdList;
+	private final Texture texture; //Texture variable used to apply a 2D image to a mesh.
+	private final List<Integer> vboIdList; //List that holds all of the vertex buffer objects.
 	
 	public Mesh(float[] positions, int[] indices, float[] textureCoordinates, Texture texture) {
-		FloatBuffer positionBuffer = null;
-		IntBuffer indicesBuffer = null;
-		FloatBuffer textureBuffer = null;
+		FloatBuffer positionBuffer = null; //Buffer variable used for the positions of each vertex.
+		IntBuffer indicesBuffer = null; //Buffer variable used to keep track of each indice of the vertices, to remove duplicates.
+		FloatBuffer textureBuffer = null; //Buffer variable used for the positions of each vertex to map the texture.
 		
 		try {
 			this.texture = texture;
@@ -111,6 +111,7 @@ public class Mesh {
 		return vertexCount;
 	}
 	
+	//Cleanup method for the mesh.
 	public void cleanup() {
 		//Disables, unbinds, and deletes the VBO and VAOs.
 		glDisableVertexAttribArray(0);
@@ -121,7 +122,7 @@ public class Mesh {
 			glDeleteBuffers(i);
 		}
 		
-		texture.cleanup();
+		texture.cleanup(); //Cleans up the texture class.
 				
 		glBindVertexArray(0);
 		glDeleteVertexArrays(vaoId);

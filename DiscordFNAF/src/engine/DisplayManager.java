@@ -2,7 +2,7 @@
  * Classname: DisplayManager
  * Programmer: Kyle Dryden
  * Version: Java 14 (JDK and JRE), LWJGL 3.2.3
- * Date: 10/11/2021
+ * Date: 22/11/2021
  * Description: Initialises and keeps track of display window properties, such as resizing and vsync.
  */
 
@@ -17,12 +17,12 @@ import static org.lwjgl.system.MemoryUtil.*;
 
 public class DisplayManager {
 	
-	private static String title;
-	private static boolean vSync;
-	private static int width;
-	private static int height;
-	private static long window;
-	private static boolean resized;
+	private static String title; //Static string variable for the title of the display window.
+	private static boolean vSync; //Static boolean variable for if vSync is activated or not.
+	private static int width; //Static int variable for the width of the display window.
+	private static int height; //Static int variable for the height of the display window.
+	private static long window; //Static long variable that keeps track of all window hints and is used to create the actual window itself.
+	private static boolean resized; //Static boolean variable for if the display window has been resized or not.
 	
 	public DisplayManager(String title, int width, int height, boolean vSync) {
 		DisplayManager.title = title;

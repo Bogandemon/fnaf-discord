@@ -2,10 +2,10 @@
  * Classname: Transformation
  * Programmer: Kyle Dryden
  * Version: Java 14 (JDK and JRE), LWJGL 3.2.3
- * Date: 10/11/2021
- * Description: Transformation class that is used to combine both the projection and world matrices. The world matrix is the combination 
- * of the translation, rotation, and scale matrices which are combined to convert from object space to world space. This will then be used
- * later for camera space and clip space. 
+ * Date: 22/11/2021
+ * Description: Transformation class that is used to work with the projection, view, and model view matrices. The model view matrix is the 
+ * combination of the projection and view matrices. This combination is used to put the current environment in camera space. This will then 
+ * be used later for camera space and clip space. 
  */
 
 package engine;
@@ -17,8 +17,8 @@ import objects.GameItem;
 
 public class Transformation {
 	private final Matrix4f projectionMatrix; //Matrix for the projection matrix.
-	private final Matrix4f viewMatrix;
-	private final Matrix4f modelViewMatrix;
+	private final Matrix4f viewMatrix; //Matrix for the view matrix. Is used in conjunction with the camera to scale objects conversely to the camera, such that movement can work.
+	private final Matrix4f modelViewMatrix; //Matrix for the model view matrix. Converts the world space to camera space and as such combines the projection and view matrix.
 	
 	//Creates the transformation object and instantiates both matrices.
 	public Transformation() {
@@ -32,8 +32,9 @@ public class Transformation {
 		return projectionMatrix.setPerspective(fov, width/height, zNear, zFar);
 	}
 	
+	//Method for retrieving the model view matrix, which will be done for each game item (translation, rotation, and scaling).
 	public Matrix4f getModelViewMatrix(GameItem gameItem, Matrix4f viewMatrix) {
-		Vector3f gIRotation = gameItem.getRotation();
+		Vector3f gIRotation = gameItem.getRotation(); //Vector that stores the rotation of the current game item being translated.
 		
 		modelViewMatrix.set(viewMatrix).translate(gameItem.getPosition()).
 					    rotateX((float) Math.toRadians(-gIRotation.x)).
@@ -44,7 +45,10 @@ public class Transformation {
 		return modelViewMatrix;
 	}
 	
+	//Method for retrieving the view matrix. Is used in conjunction with the camera to make all objects move in accordance to inputs.
 	public Matrix4f getViewMatrix(Camera camera) {
+		
+		//Vectors for retrieving the camera position and rotaiton.
 		Vector3f camPosition= camera.getPosition();
 		Vector3f camRotation = camera.getRotation();
 		
