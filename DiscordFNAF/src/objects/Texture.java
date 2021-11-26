@@ -24,6 +24,10 @@ public class Texture {
 		loadTexture(fileName);
 	}
 	
+	public Texture(int id) {
+		this.id = id;
+	}
+	
 	//Method for loading the texture from a file to be used and mapped onto a model.
 	public static int loadTexture(String fileName) throws Exception {
 		int width = 0; //Variable for the width of the image.

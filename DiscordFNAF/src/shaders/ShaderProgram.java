@@ -2,7 +2,7 @@
  * Classname: ShaderProgram
  * Programmer: Kyle Dryden
  * Version: Java 14 (JDK and JRE), LWJGL 3.2.3
- * Date: 22/11/2021
+ * Date: 23/11/2021
  * Description: Creates and combines the shaders used during the programmable graphics pipeline (vertex shader, fragment shader, and uniforms).
  */
 
@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.joml.Matrix4f;
+import org.joml.Vector3f;
 import org.lwjgl.system.MemoryStack;
 
 public class ShaderProgram {
@@ -130,5 +131,10 @@ public class ShaderProgram {
 	//Overloaded uniform setter method. Used primarily for the world view matrix.
 	public void setUniform(String uniformName, int value) {
 		glUniform1i(uniforms.get(uniformName), value);
+	}
+	
+	//Overloaded uniform setter method used for 3D vectors (seen in master renderer).
+	public void setUniform(String uniformName, Vector3f value) {
+		glUniform3f(uniforms.get(uniformName), value.x, value.y, value.z);
 	}
 }

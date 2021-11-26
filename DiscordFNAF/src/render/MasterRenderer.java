@@ -49,6 +49,8 @@ public class MasterRenderer {
 		shaderProgram.createUniform("projectionMatrix");
 		shaderProgram.createUniform("modelViewMatrix");
 		shaderProgram.createUniform("texture_sampler");
+		shaderProgram.createUniform("colour");
+		shaderProgram.createUniform("useColour");
 	}
 		
 	
@@ -79,7 +81,11 @@ public class MasterRenderer {
 		//For loop that renders each specific object into the game according to their own specific world matrix.
 		for (GameItem gameItem : gameItems) {
 			Matrix4f modelViewMatrix = transformation.getModelViewMatrix(gameItem, viewMatrix);
+			
 			shaderProgram.setUniform("modelViewMatrix", modelViewMatrix);
+			shaderProgram.setUniform("colour", gameItem.getMesh().getColour());
+			shaderProgram.setUniform("useColour", gameItem.getMesh().isTextured() ? 0 : 1);
+			
 			gameItem.getMesh().render();
 		}
 		

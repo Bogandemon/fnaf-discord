@@ -13,6 +13,7 @@ import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.joml.Vector3f;
 import org.lwjgl.system.MemoryUtil;
 
 import static org.lwjgl.opengl.GL15.GL_ARRAY_BUFFER;
@@ -22,18 +23,21 @@ import static org.lwjgl.opengl.GL20.glDisableVertexAttribArray;
 import static org.lwjgl.opengl.GL30.*;
 
 public class Mesh {
+	private static final Vector3f DEFAULT_COLOUR = new Vector3f(1.0f, 0.0f, 1.0f);
 	private final int vaoId; //VAO that combines all of the VBOs together as a wrapper.
 	private final int vertexCount; //Int variable that holds the total number of vertices in a given mesh.
-	private final Texture texture; //Texture variable used to apply a 2D image to a mesh.
+	private Texture texture;
+	private Vector3f colour;
 	private final List<Integer> vboIdList; //List that holds all of the vertex buffer objects.
 	
-	public Mesh(float[] positions, int[] indices, float[] textureCoordinates, Texture texture) {
+	public Mesh(float[] positions, int[] indices, float[] textureCoordinates, float[] normals) {
 		FloatBuffer positionBuffer = null; //Buffer variable used for the positions of each vertex.
 		IntBuffer indicesBuffer = null; //Buffer variable used to keep track of each indice of the vertices, to remove duplicates.
 		FloatBuffer textureBuffer = null; //Buffer variable used for the positions of each vertex to map the texture.
+		FloatBuffer normalsBuffer = null;
 		
 		try {
-			this.texture = texture;
+			colour = Mesh.DEFAULT_COLOUR;
 			vertexCount = indices.length;
 			vboIdList = new ArrayList<Integer>();
 			
@@ -48,6 +52,8 @@ public class Mesh {
 			indicesBuffer.put(indices).flip();
 			textureBuffer = MemoryUtil.memAllocFloat(textureCoordinates.length);
 			textureBuffer.put(textureCoordinates).flip();
+			normalsBuffer = MemoryUtil.memAllocFloat(normals.length);
+			normalsBuffer.put(normals).flip();
 			
 			//Position VBO information.
 			int VboId = glGenBuffers();
@@ -71,6 +77,13 @@ public class Mesh {
 			glEnableVertexAttribArray(1);
 			glVertexAttribPointer(1, 2, GL_FLOAT, false, 0, 0);
 			
+			//Vertex normal VBO information.
+			VboId = glGenBuffers();
+			vboIdList.add(VboId);
+			glBindBuffer(GL_ARRAY_BUFFER, VboId);
+			glBufferData(GL_ARRAY_BUFFER, normalsBuffer, GL_STATIC_DRAW);
+			glEnableVertexAttribArray(2);
+			glVertexAttribPointer(2, 3, GL_FLOAT, false, 0, 0);
 			
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
 			glBindVertexArray(0);
@@ -88,13 +101,17 @@ public class Mesh {
 			if (textureBuffer != null) {
 				MemoryUtil.memFree(textureBuffer);
 			}
+			
+			if (normalsBuffer != null) {
+				MemoryUtil.memFree(normalsBuffer);
+			}
 		}
 	}
 	
 	//Method for rendering the vertex array object with the vertex buffer objects.
 	public void render() {
-		glActiveTexture(GL_TEXTURE1);
-		glBindTexture(GL_TEXTURE_2D, texture.getId());
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, texture.getId()-1);
 		
 		glBindVertexArray(getVaoId());
 		glDrawElements(GL_TRIANGLES, getVertexCount(), GL_UNSIGNED_INT, 0);
@@ -109,6 +126,26 @@ public class Mesh {
 	//Returns the vertex count.
 	public int getVertexCount() {
 		return vertexCount;
+	}
+	
+	public boolean isTextured() {
+		return this.texture != null;
+	}
+	
+	public void setTexture(Texture texture) {
+		this.texture = texture;
+	}
+	
+	public Texture getTexture() {
+		return texture;
+	}
+	
+	public void setColour(Vector3f colour) {
+		this.colour = colour;
+	}
+	
+	public Vector3f getColour() {
+		return colour;
 	}
 	
 	//Cleanup method for the mesh.

@@ -8,7 +8,10 @@
 
 package utility;
 
+import java.io.File;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Resources {
@@ -24,4 +27,17 @@ public class Resources {
 		
 		return result;
 	}
+	
+	public static List<String> readAllLines(String fileName) throws Exception {
+		List<String> result = new ArrayList<String>();
+		
+		Scanner fileImport = new Scanner(new File(fileName));
+		
+		while (fileImport.hasNextLine()) {
+			String nextLine = fileImport.nextLine();
+			result.add(nextLine);
+		}
+		
+		return result;
+	} 
 }
