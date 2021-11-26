@@ -2,7 +2,7 @@
  * Classname: Texture
  * Programmer: Kyle Dryden
  * Version: Java 14 (JDK and JRE), LWJGL 3.2.3
- * Date: 22/11/2021
+ * Date: 27/11/2021
  * Description: Texture class used to wrap a 2D image onto a 3D model/mesh in the game environment.
  */
 
@@ -21,15 +21,11 @@ public class Texture {
 	private int id; //Int variable that keeps track of the ID the texture has (to map it appropriately).
 	
 	public Texture (String fileName) throws Exception {
-		loadTexture(fileName);
-	}
-	
-	public Texture(int id) {
-		this.id = id;
+		id = loadTexture(fileName);
 	}
 	
 	//Method for loading the texture from a file to be used and mapped onto a model.
-	public int loadTexture(String fileName) throws Exception {
+	public static int loadTexture(String fileName) throws Exception {
 		int width = 0; //Variable for the width of the image.
 		int height = 0; //Variable for the height of the image.
 		ByteBuffer buffer; //Variable for loading the actual image into a buffer.
@@ -57,7 +53,6 @@ public class Texture {
 		//Creates and binds the texture appropriately.
 		int textureId = glGenTextures();
 		glBindTexture(GL_TEXTURE_2D, textureId);
-		id = textureId;
 		
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 1); //Tells openGL how to unpack the actual texture.
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer); //Uploads the actual texture image.
