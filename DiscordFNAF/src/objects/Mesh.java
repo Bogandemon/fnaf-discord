@@ -110,12 +110,15 @@ public class Mesh {
 	
 	//Method for rendering the vertex array object with the vertex buffer objects.
 	public void render() {
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, texture.getId()-1);
+		if (texture != null) {
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, texture.getId());
+		}
 		
 		glBindVertexArray(getVaoId());
 		glDrawElements(GL_TRIANGLES, getVertexCount(), GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);
+		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 	
 	//Returns the VAO ID.

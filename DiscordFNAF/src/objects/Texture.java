@@ -29,7 +29,7 @@ public class Texture {
 	}
 	
 	//Method for loading the texture from a file to be used and mapped onto a model.
-	public static int loadTexture(String fileName) throws Exception {
+	public int loadTexture(String fileName) throws Exception {
 		int width = 0; //Variable for the width of the image.
 		int height = 0; //Variable for the height of the image.
 		ByteBuffer buffer; //Variable for loading the actual image into a buffer.
@@ -57,6 +57,7 @@ public class Texture {
 		//Creates and binds the texture appropriately.
 		int textureId = glGenTextures();
 		glBindTexture(GL_TEXTURE_2D, textureId);
+		id = textureId;
 		
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 1); //Tells openGL how to unpack the actual texture.
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, buffer); //Uploads the actual texture image.

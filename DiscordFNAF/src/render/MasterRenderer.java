@@ -18,10 +18,7 @@ import engine.DisplayManager;
 import engine.Transformation;
 import objects.GameItem;
 
-import static org.lwjgl.opengl.GL11.glClear;
-import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
-import static org.lwjgl.opengl.GL11.GL_DEPTH_BUFFER_BIT;
-import static org.lwjgl.opengl.GL11.glViewport;
+import static org.lwjgl.opengl.GL11.*;
 
 public class MasterRenderer {
 	
@@ -56,6 +53,7 @@ public class MasterRenderer {
 	
 	//Currently clears the colour buffer.
 	public void clear() {
+		glClearColor(0, 0, 0, 1);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 	
@@ -65,7 +63,7 @@ public class MasterRenderer {
 		
 		if (displayWindow.isResized()) {
 			glViewport(0, 0, displayWindow.getWidth(), displayWindow.getHeight());
-			displayWindow.setResized(false);	
+			displayWindow.setResized(false);
 		}
 		
 		//Renders the projection matrix (sets up the camera to appropriately handle scaling and aspect ratio/FOV concepts).
@@ -73,7 +71,7 @@ public class MasterRenderer {
 		Matrix4f projectionMatrix = transformation.getProjectionMatrix(FOV, displayWindow.getWidth(), displayWindow.getHeight(), Z_NEAR, Z_FAR);
 		
 		shaderProgram.setUniform("projectionMatrix", projectionMatrix);
-		shaderProgram.setUniform("texture_sampler", 0);
+		shaderProgram.setUniform("texture_sampler", 0); //CHANGE 0 LATER FOR MULTI-TEXTURING.
 		
 		//Obtains the view matrix (for the camera movement).
 		Matrix4f viewMatrix = transformation.getViewMatrix(camera);

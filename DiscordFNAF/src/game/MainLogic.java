@@ -44,14 +44,17 @@ public class MainLogic implements GameLogic {
 		renderer.init(displayWindow);
 		
 		Mesh mesh = ModelLoader.loadMesh("models/cube.obj");
-		Mesh mesh2 = ModelLoader.loadMesh("models/Basketball2.obj");
+		Mesh mesh2 = ModelLoader.loadMesh("models/Basketball.obj");
+		Mesh mesh3 = ModelLoader.loadMesh("models/BasketballHoop.obj");
 		
-		
-		Texture texture2 = new Texture("textures/Basketball.jpg");
 		Texture texture = new Texture("textures/grassblock.png");
+		Texture texture2 = new Texture("textures/Basketball.jpg");
+		Texture texture3 = new Texture("textures/HoopColour.png");
 		
-		mesh2.setTexture(texture2);
 		mesh.setTexture(texture);
+		mesh2.setTexture(texture2);
+		mesh3.setTexture(texture3);
+		
 		GameItem gameItem = new GameItem(mesh);
 		gameItem.setScale(0.5f);
 		gameItem.setPosition(0, 0, -2);
@@ -60,7 +63,11 @@ public class MainLogic implements GameLogic {
 		gameItem2.setScale(0.4f);
 		gameItem2.setPosition(0, 0, -4);
 		
-		gameItems = new GameItem[] {gameItem, gameItem2};
+		GameItem gameItem3 = new GameItem(mesh3);
+		gameItem3.setScale(0.4f);
+		gameItem3.setPosition(0, 0, -4);
+		
+		gameItems = new GameItem[] {gameItem, gameItem2, gameItem3};
 	}
 	
 	@Override
@@ -110,7 +117,7 @@ public class MainLogic implements GameLogic {
 				rotation = 0;
 			}
 			
-			gameItem.setRotation(rotation, rotation, rotation);
+			//gameItem.setRotation(rotation, rotation, rotation);
 		}
 	}
 	
