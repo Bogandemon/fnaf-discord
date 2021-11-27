@@ -1,3 +1,11 @@
+/*
+ * Classname: ModelLoader
+ * Programmer: Kyle Dryden
+ * Version: Java 14 (JDK and JRE), LWJGL 3.2.3
+ * Date: 27/11/2021
+ * Description: 
+ */
+
 package objects;
 
 import java.util.ArrayList;
@@ -78,7 +86,8 @@ public class ModelLoader {
 		
 		int[] indicesArray = new int[indices.size()];
 		indicesArray = indices.stream().mapToInt((Integer v) -> v).toArray();
-		Mesh mesh = new Mesh(positionArray, indicesArray, textureArray, normalArray);
+		Mesh mesh = new Mesh(indicesArray);
+		mesh.loadVaos(positionArray, textureArray, normalArray);
 		return mesh;
 		
 	}

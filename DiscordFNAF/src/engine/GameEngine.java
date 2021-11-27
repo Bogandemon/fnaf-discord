@@ -2,7 +2,7 @@
  * Classname: GameEngine
  * Programmer: Kyle Dryden
  * Version: Java 14 (JDK and JRE), LWJGL 3.2.3
- * Date: 22/11/2021
+ * Date: 27/11/2021
  * Description: Major class that houses the primary while loop and contacts all other classes for a compiled project, such as the renderer, 
  * the game logic, and the display manager.
  */
@@ -71,6 +71,7 @@ public class GameEngine implements Runnable {
 			
 			render();
 			
+			//Used for syncing monitor without vSync.
 			if (!displayWindow.isVsync()) {
 				sync();
 			}

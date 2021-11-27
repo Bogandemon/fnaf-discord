@@ -2,7 +2,7 @@
  * Classname: Mesh
  * Programmer: Kyle Dryden
  * Version: Java 14 (JDK and JRE), LWJGL 3.2.3
- * Date: 22/11/2021
+ * Date: 27/11/2021
  * Description: Class that creates the vao and vbo objects (for further separation of concerns).
  */
 
@@ -30,26 +30,47 @@ public class Mesh {
 	private Vector3f colour;
 	private final List<Integer> vboIdList; //List that holds all of the vertex buffer objects.
 	
-	public Mesh(float[] positions, int[] indices, float[] textureCoordinates, float[] normals) {
-		FloatBuffer positionBuffer = null; //Buffer variable used for the positions of each vertex.
+	public Mesh(int[] indices) {
+		
+		colour = Mesh.DEFAULT_COLOUR;
+		vboIdList = new ArrayList<Integer>();
+		
+		//Creates and binds the VAO to hold the two VBOs.
+		vaoId = glGenVertexArrays();
+		glBindVertexArray(vaoId);
+		
 		IntBuffer indicesBuffer = null; //Buffer variable used to keep track of each indice of the vertices, to remove duplicates.
-		FloatBuffer textureBuffer = null; //Buffer variable used for the positions of each vertex to map the texture.
-		FloatBuffer normalsBuffer = null;
+		vertexCount = indices.length;
 		
 		try {
-			colour = Mesh.DEFAULT_COLOUR;
-			vertexCount = indices.length;
-			vboIdList = new ArrayList<Integer>();
-			
-			//Creates and binds the VAO to hold the two VBOs.
-			vaoId = glGenVertexArrays();
-			glBindVertexArray(vaoId);
-			
+			indicesBuffer = MemoryUtil.memAllocInt(indices.length);
+			indicesBuffer.put(indices).flip();
+		
+			//Index VBO information.
+			int VboId = glGenBuffers();
+			vboIdList.add(VboId);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, VboId);
+			glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicesBuffer, GL_STATIC_DRAW);
+		} 
+		
+		finally {
+			if (indicesBuffer != null) {
+				MemoryUtil.memFree(indicesBuffer);
+			}
+		}
+		
+		
+	}
+	
+	public void loadVaos(float[] positions, float[] textureCoordinates, float[] normals) {
+		FloatBuffer positionBuffer = null; //Buffer variable used for the positions of each vertex.
+		FloatBuffer textureBuffer = null; //Buffer variable used for the positions of each vertex to map the texture.
+		FloatBuffer normalsBuffer = null; //Buffer variable used for the normals of each face in the mesh.
+		
+		try {
 			//Assigning buffers graphics card memory and placing appropriate values.
 			positionBuffer = MemoryUtil.memAllocFloat(positions.length);
 			positionBuffer.put(positions).flip();
-			indicesBuffer = MemoryUtil.memAllocInt(indices.length);
-			indicesBuffer.put(indices).flip();
 			textureBuffer = MemoryUtil.memAllocFloat(textureCoordinates.length);
 			textureBuffer.put(textureCoordinates).flip();
 			normalsBuffer = MemoryUtil.memAllocFloat(normals.length);
@@ -62,12 +83,6 @@ public class Mesh {
 			glBufferData(GL_ARRAY_BUFFER, positionBuffer, GL_STATIC_DRAW);
 			glEnableVertexAttribArray(0);
 			glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, 0);
-			
-			//Index VBO information.
-			VboId = glGenBuffers();
-			vboIdList.add(VboId);
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, VboId);
-			glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicesBuffer, GL_STATIC_DRAW);
 			
 			//Texture VBO information.
 			VboId = glGenBuffers();
@@ -92,10 +107,6 @@ public class Mesh {
 		} finally {
 			if (positionBuffer != null) {
 				MemoryUtil.memFree(positionBuffer);
-			}
-			
-			if (indicesBuffer != null) {
-				MemoryUtil.memFree(indicesBuffer);
 			}
 			
 			if (textureBuffer != null) {
@@ -131,10 +142,12 @@ public class Mesh {
 		return vertexCount;
 	}
 	
+	//Method check for the texture.
 	public boolean isTextured() {
 		return this.texture != null;
 	}
 	
+	//Setter and getter for the texture.
 	public void setTexture(Texture texture) {
 		this.texture = texture;
 	}
@@ -143,6 +156,7 @@ public class Mesh {
 		return texture;
 	}
 	
+	//Setter and getter for the colour.
 	public void setColour(Vector3f colour) {
 		this.colour = colour;
 	}

@@ -21,7 +21,7 @@ public class Texture {
 	private int id; //Int variable that keeps track of the ID the texture has (to map it appropriately).
 	
 	public Texture (String fileName) throws Exception {
-		id = loadTexture(fileName);
+		id = loadTexture(fileName); //Important to assign the Id (allows each texture to be assigned to a mesh).
 	}
 	
 	//Method for loading the texture from a file to be used and mapped onto a model.
