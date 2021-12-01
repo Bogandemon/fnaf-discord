@@ -6,16 +6,12 @@
  * Description: Handles the main renderering logic to the screen for the graphics.
  */
 
-package render;
+package engine;
 
 import utility.Resources;
-import shaders.ShaderProgram;
 
 import org.joml.Matrix4f;
 
-import engine.Camera;
-import engine.DisplayManager;
-import engine.Transformation;
 import objects.GameItem;
 
 import static org.lwjgl.opengl.GL11.*;

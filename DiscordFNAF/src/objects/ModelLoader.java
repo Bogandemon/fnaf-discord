@@ -3,7 +3,9 @@
  * Programmer: Kyle Dryden
  * Version: Java 14 (JDK and JRE), LWJGL 3.2.3
  * Date: 1/12/2021
- * Description: 
+ * Description: Class used to load the OBJ model files. Uses private classes to create the faces and index groups. Creates
+ * separate lists for the vertices (v), the textures (vt), the normals (vn), and the faces (f). When importing, the models
+ * need to be triangulated to comply with the current implementation of the model loader.
  */
 
 package objects;
@@ -17,16 +19,22 @@ import org.joml.Vector3f;
 import utility.Resources;
 
 public class ModelLoader {
+	
+	//Method called for each model to load the model from the OBJ file.
 	public static Mesh loadMesh(String fileName) throws Exception {
-		List<String> allLines = Resources.readAllLines(fileName);
+		List<String> allLines = Resources.readAllLines(fileName); //List variable that holds all lines of the OBJ model file.
+		
+		//List variables for the vertices (v), the textures (vt), the normals (vn), and the faces (f).
 		List<Vector3f> vertices = new ArrayList<>();
 		List<Vector2f> textures = new ArrayList<>();
 		List<Vector3f> normals = new ArrayList<>();
 		List<Face> faces = new ArrayList<>();
 		
+		//For loop that goes through all of the lines in the list for the OBJ file.
 		for (String line: allLines) {
-			String[] information = line.split("\\s+");
+			String[] information = line.split("\\s+"); //Splits each line up according to a space or multiple spaces.
 			
+			//Switch statement for the different types of vertices.
 			switch (information[0]) {
 			case "v":
 				Vector3f newVert = new Vector3f(Float.parseFloat(information[1]), 
@@ -61,6 +69,7 @@ public class ModelLoader {
 		return reorderLists(vertices, textures, normals, faces);
 	}
 	
+	//Private method used to appropriately reorder the lists (without the ordering, these models would not render properly).
 	private static Mesh reorderLists(List<Vector3f> vertices, List<Vector2f> textures, List<Vector3f> normals, List<Face> faces) {
 		List<Integer> indices = new ArrayList<>();
 		float[] positionArray = new float[vertices.size() * 3];
@@ -92,6 +101,7 @@ public class ModelLoader {
 		
 	}
 	
+	//Private method for processing each faces texture.
 	private static void processFaceTexture(IdxGroup indices, List<Vector2f> textures, float[] textureArray) {
 		if (indices.idxTextCoord >= 0) {
 			Vector2f textureCoord = textures.get(indices.idxTextCoord);
@@ -100,6 +110,7 @@ public class ModelLoader {
 		}
 	}
 	
+	//Private method for processing each faces normal.
 	private static void processFaceNormal(IdxGroup indices,  List<Vector3f> normals, float[] normalArray) {
 		if (indices.idxVecNormal >= 0) {
 			Vector3f vectNormal = normals.get(indices.idxVecNormal);
@@ -109,21 +120,33 @@ public class ModelLoader {
 		}
 	}
 	
+	//Inner class for the index group.
 	protected static class IdxGroup {
-		public int idxPos;
+		
+		private static final int NO_VALUE = -1; //Current default value for an inactive value.
+		
+		//Variables for the index vertex position, the texture coordinate, and the vector normal.
+		public int idxPos; 
 		public int idxTextCoord;
 		public int idxVecNormal;
 		
 		public IdxGroup() {
-			idxPos = -1;
-			idxTextCoord = -1;
-			idxVecNormal = -1;
+			idxPos = NO_VALUE;
+			idxTextCoord = NO_VALUE;
+			idxVecNormal = NO_VALUE;
 		}
 	}
 	
+	/* Inner class for the faces of the models. Will be used in conjunction with the textures and the normals. The format
+	 * involves three values separated by lines, such as 11/1/1. In the case that two values are filled, such as 11//1,
+	 * implies that there is no texture for the face. With a triangulated model, three of these kinds of values are
+	 * supplied and stored in the index groups. With these values, the texture and face are created and interpolated to
+	 * make a single face. These are then combined to create the complex models.
+	 */
 	protected static class Face {
-		private IdxGroup[] idxGroups = new IdxGroup[3];
+		private IdxGroup[] idxGroups = new IdxGroup[3]; //Index group variable for each face (three are supplied for each vertex in a triangle).
 		
+		//Constructor for each face class.
 		public Face(String v1, String v2, String v3) {
 			idxGroups = new IdxGroup[3];
 			idxGroups[0] = parseLine(v1);
@@ -131,13 +154,15 @@ public class ModelLoader {
 			idxGroups[2] = parseLine(v3);
 		}
 		
+		//Private method for parsing each line of the faces. Accounts for having missing textures (example: 11//2).
 		private IdxGroup parseLine(String line) {
-			IdxGroup idxGroup = new IdxGroup();
+			IdxGroup idxGroup = new IdxGroup(); //Creates one new index group for the indexes of the vertex, texture coord, and normal vector.
 			
-			String[] lineInfo = line.split("/");
-			int length = lineInfo.length;
+			String[] lineInfo = line.split("/"); //Variable for splitting up the line.
+			int length = lineInfo.length; //Obtains the length of the variable. Used for if a face does not contain a texture.
 			idxGroup.idxPos = Integer.parseInt(lineInfo[0]) - 1;
 			
+			//If the length is found to be one, then only the texture coordinate is given. If the length is two, then a vector normal is also supplied.
 			if (length > 1) {
 				String textCoord = lineInfo[1];
 				idxGroup.idxTextCoord  = textCoord.length() > 0 ? Integer.parseInt(textCoord) - 1 : -1;
@@ -150,6 +175,7 @@ public class ModelLoader {
 			return idxGroup;
 		}
 		
+		//Returns all of the index group values.
 		public IdxGroup[] getFaceVertexIndices() {
 			return idxGroups;
 		}

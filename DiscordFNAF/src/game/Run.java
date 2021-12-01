@@ -14,9 +14,9 @@ import interfaces.GameLogic;
 public class Run {
 	
 	//Default values for the game engine currently being used.
-	static final String title  = "Discord FNAF";
-	static int displayWidth = 800;
-	static int displayHeight = 600;
+	static final String title  = "Based";
+	static int displayWidth = 1024;
+	static int displayHeight = 728;
 	static boolean vSync = true;
 	
 	public static void main(String[] args) {

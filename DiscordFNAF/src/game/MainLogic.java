@@ -18,13 +18,13 @@ import static org.lwjgl.glfw.GLFW.*;
 
 import engine.Camera;
 import engine.DisplayManager;
+import engine.MasterRenderer;
 import engine.MouseInput;
 import interfaces.GameLogic;
 import objects.GameItem;
 import objects.Mesh;
 import objects.ModelLoader;
 import objects.Texture;
-import render.MasterRenderer;
 
 public class MainLogic implements GameLogic {
 
@@ -101,9 +101,9 @@ public class MainLogic implements GameLogic {
 	
 	@Override
 	public void update(float interval, MouseInput mouseInput) {
-		camera.movePosition(cameraInc.x * 0.05f,
-			   cameraInc.y * 0.05f,
-			   cameraInc.z * 0.05f);
+		camera.movePosition(cameraInc.x * 0.10f,
+			   cameraInc.y * 0.10f,
+			   cameraInc.z * 0.10f);
 		
 		if (mouseInput.isRightPressed()) {
 			Vector2f rotVec = mouseInput.getDisplayVector();
@@ -117,7 +117,7 @@ public class MainLogic implements GameLogic {
 				rotation = 0;
 			}
 			
-			//gameItem.setRotation(rotation, rotation, rotation);
+			gameItem.setRotation(rotation, rotation, rotation);
 		}
 	}
 	

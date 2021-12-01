@@ -6,7 +6,7 @@
  * Description: Creates and combines the shaders used during the programmable graphics pipeline (vertex shader, fragment shader, and uniforms).
  */
 
-package shaders;
+package engine;
 
 import static org.lwjgl.opengl.GL20.*;
 
