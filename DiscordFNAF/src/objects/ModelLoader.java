@@ -20,6 +20,9 @@ import utility.Resources;
 
 public class ModelLoader {
 	
+	private static float[] textureArray; //Private variable used to escape the scope of certain functions.
+	private static float[] normalArray; //Private variable used to escape the scope of certain functions.
+	
 	//Method called for each model to load the model from the OBJ file.
 	public static Mesh loadMesh(String fileName) throws Exception {
 		List<String> allLines = Resources.readAllLines(fileName); //List variable that holds all lines of the OBJ model file.
@@ -66,12 +69,17 @@ public class ModelLoader {
 			}
 		}
 		
-		return reorderLists(vertices, textures, normals, faces);
+		//Arrays used for the reordered arrays required for the mesh class.
+		float[] positionArray = reorderVertices(vertices);
+		textureArray = new float[vertices.size()*2];
+		normalArray = new float[vertices.size()*3];
+		
+		Mesh mesh = reorderLists(textures, normals, faces);
+		mesh.loadVaos(positionArray, textureArray, normalArray);
+		return mesh;
 	}
-	
-	//Private method used to appropriately reorder the lists (without the ordering, these models would not render properly).
-	private static Mesh reorderLists(List<Vector3f> vertices, List<Vector2f> textures, List<Vector3f> normals, List<Face> faces) {
-		List<Integer> indices = new ArrayList<>();
+	 //Private method used to reorder the vertices. Mainly employed to separate the concerns and remove the number of parameters.
+	private static float[] reorderVertices(List<Vector3f> vertices) {
 		float[] positionArray = new float[vertices.size() * 3];
 		int i = 0;
 		for (Vector3f position: vertices) {
@@ -80,29 +88,40 @@ public class ModelLoader {
 			positionArray[(i*3)+2] = position.z;
 			i++;
 		}
+		return positionArray;
+	}
+	
+	//Private method used to appropriately reorder the lists (without the ordering, these models would not render properly).
+	private static Mesh reorderLists(List<Vector2f> textures, List<Vector3f> normals, List<Face> faces) {
 		
-		float[] textureArray = new float[vertices.size()*2];
-		float[] normalArray = new float[vertices.size()*3];
+		List<Integer> indices = new ArrayList<>(); //Integer list for the indices (reduces the number of vertices required).
 		
+		//For loop that corresponds to each of the faces to appropriately map the texture and normal to that face.
 		for (Face face : faces) {
 			IdxGroup[] faceVertexIndices = face.getFaceVertexIndices();
+			
+			//For loop for each index value (meaning three of them).
 			for (IdxGroup indValue: faceVertexIndices) {
 				indices.add(indValue.idxPos);
-				processFaceTexture(indValue, textures, textureArray);
-				processFaceNormal(indValue, normals, normalArray);
+				processFaceTexture(indValue, textures, textureArray); //Method call for processing the texture.
+				processFaceNormal(indValue, normals, normalArray); //Method call for processing the normal.
 			}
 		}
 		
+		//Appropriately creates the reordered indices array and sets it according to the stream.
 		int[] indicesArray = new int[indices.size()];
 		indicesArray = indices.stream().mapToInt((Integer v) -> v).toArray();
+		
+		//Creates and returns the mesh according to the indices.
 		Mesh mesh = new Mesh(indicesArray);
-		mesh.loadVaos(positionArray, textureArray, normalArray);
 		return mesh;
 		
 	}
 	
 	//Private method for processing each faces texture.
 	private static void processFaceTexture(IdxGroup indices, List<Vector2f> textures, float[] textureArray) {
+		
+		//If statemnet that will replace the texture coordinate so long as the index has actually been changed (not -1).
 		if (indices.idxTextCoord >= 0) {
 			Vector2f textureCoord = textures.get(indices.idxTextCoord);
 			textureArray[indices.idxPos*2] = textureCoord.x;
@@ -112,6 +131,8 @@ public class ModelLoader {
 	
 	//Private method for processing each faces normal.
 	private static void processFaceNormal(IdxGroup indices,  List<Vector3f> normals, float[] normalArray) {
+		
+		//If statemnet that will replace the normal vector so long as the index has actually been changed (not -1).
 		if (indices.idxVecNormal >= 0) {
 			Vector3f vectNormal = normals.get(indices.idxVecNormal);
 			normalArray[indices.idxPos*3] = vectNormal.x;
