@@ -34,8 +34,8 @@ public class MasterRenderer {
 		
 		//Creates shader program and creates/links the both the vertex and fragment shaders.
 		shaderProgram = new ShaderProgram();
-		shaderProgram.createVertexShader(Resources.loadResource("/vertex.vs"));
-		shaderProgram.createFragmentShader(Resources.loadResource("/fragment.fs"));
+		shaderProgram.createVertexShader(Resources.loadResource("/shaders/vertex.vs"));
+		shaderProgram.createFragmentShader(Resources.loadResource("/shaders/fragment.fs"));
 		shaderProgram.link();
 		
 		//Creates the two uniform matrices and sets them up in the hashmap for accessing in the shader program.

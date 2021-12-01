@@ -43,13 +43,13 @@ public class MainLogic implements GameLogic {
 	public void init(DisplayManager displayWindow) throws Exception {
 		renderer.init(displayWindow);
 		
-		Mesh mesh = ModelLoader.loadMesh("models/cube.obj");
-		Mesh mesh2 = ModelLoader.loadMesh("models/Basketball.obj");
-		Mesh mesh3 = ModelLoader.loadMesh("models/BasketballHoop.obj");
+		Mesh mesh = ModelLoader.loadMesh("resources/models/cube.obj");
+		Mesh mesh2 = ModelLoader.loadMesh("resources/models/Basketball.obj");
+		Mesh mesh3 = ModelLoader.loadMesh("resources/models/BasketballHoop.obj");
 		
-		Texture texture = new Texture("textures/grassblock.png");
-		Texture texture2 = new Texture("textures/Basketball.jpg");
-		Texture texture3 = new Texture("textures/HoopColour.png");
+		Texture texture = new Texture("resources/textures/grassblock.png");
+		Texture texture2 = new Texture("resources/textures/Basketball.jpg");
+		Texture texture3 = new Texture("resources/textures/HoopColour.png");
 		
 		mesh.setTexture(texture);
 		mesh2.setTexture(texture2);
@@ -68,6 +68,7 @@ public class MainLogic implements GameLogic {
 		gameItem3.setPosition(0, 0, -4);
 		
 		gameItems = new GameItem[] {gameItem, gameItem2, gameItem3};
+		
 	}
 	
 	@Override
