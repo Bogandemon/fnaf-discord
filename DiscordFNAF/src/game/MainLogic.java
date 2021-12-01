@@ -2,7 +2,7 @@
  * Classname: MainLogic
  * Programmer: Kyle Dryden
  * Version: Java 14 (JDK and JRE), LWJGL 3.2.3
- * Date: 16/11/2021
+ * Date: 1/12/2021
  * Description: Logic class that combines the renderer and the game objects to create the logic for the game.
  */
 

@@ -2,8 +2,8 @@
  * Classname: Mesh
  * Programmer: Kyle Dryden
  * Version: Java 14 (JDK and JRE), LWJGL 3.2.3
- * Date: 27/11/2021
- * Description: Class that creates the vao and vbo objects (for further separation of concerns).
+ * Date: 1/12/2021
+ * Description: Class that creates the vao and vbo objects as lists (for further separation of concerns).
  */
 
 package objects;
@@ -26,9 +26,9 @@ public class Mesh {
 	private static final Vector3f DEFAULT_COLOUR = new Vector3f(1.0f, 0.0f, 1.0f);
 	private final int vaoId; //VAO that combines all of the VBOs together as a wrapper.
 	private final int vertexCount; //Int variable that holds the total number of vertices in a given mesh.
-	private Texture texture;
-	private Vector3f colour;
 	private final List<Integer> vboIdList; //List that holds all of the vertex buffer objects.
+	private Texture texture; //Texture variable that stores the texture mapping to the mesh.
+	private Vector3f colour; //Colour variable used for when a texture is not needed or found for the object.
 	
 	public Mesh(int[] indices) {
 		
@@ -53,6 +53,7 @@ public class Mesh {
 			glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicesBuffer, GL_STATIC_DRAW);
 		} 
 		
+		//Finally statement that frees the memory space for the indices buffer.
 		finally {
 			if (indicesBuffer != null) {
 				MemoryUtil.memFree(indicesBuffer);

@@ -2,7 +2,7 @@
  * Classname: GameEngine
  * Programmer: Kyle Dryden
  * Version: Java 14 (JDK and JRE), LWJGL 3.2.3
- * Date: 27/11/2021
+ * Date: 1/12/2021
  * Description: Major class that houses the primary while loop and contacts all other classes for a compiled project, such as the renderer, 
  * the game logic, and the display manager.
  */
@@ -14,7 +14,7 @@ import interfaces.GameLogic;
 public class GameEngine implements Runnable {
 	
 	public static final int TARGET_FPS = 60; //Variable that keeps track of target FPS.
-	public static final int TARGET_UPS = 30;
+	public static final int TARGET_UPS = 30; //Variable for update per second. This calculation is tied to the frame rate.
 	
 	private final DisplayManager displayWindow; //Variable that creates the window with various settings (AP, title, vSync).
 	private final GameLogic gameLogic; //Variable that handles the gamelogic.
@@ -53,9 +53,8 @@ public class GameEngine implements Runnable {
 	private void gameLoop() {
 		float elapsedTime; //Keeps track of amount of time elapsed in each time slice.
 		float accumulator = 0f; //Keeps track of elapsed time per time slice compared to how long it should last.
-		float interval = 1f / TARGET_UPS;
-		
-		boolean running = true;
+		float interval = 1f / TARGET_UPS; //Interval variable used for the update method. The lower the value, the more updates will be rendered.
+		boolean running = true; //Boolean variable that keeps track if the loop is still running.
 		
 		//Main while loop fop the game.
 		while (running && !displayWindow.windowShouldClose()) {
@@ -80,9 +79,10 @@ public class GameEngine implements Runnable {
 	
 	//Syncs the frame rate to the in accordance to vsync, meaning its synced with the refresh rate of the graphics card.
 	private void sync() {
-		float loopSlot = 1f / TARGET_FPS;
+		float loopSlot = 1f / TARGET_FPS; //Used for the endTime variable to properly setup the while loop.
 		double endTime = timer.getLastLoopTime() + loopSlot; //Variable for how long each time slice should last.
 		
+		//While loop for amount of time to wait. If not enough time is up, a single millesecond of time goes by.
 		while (timer.getTime() < endTime) {
 			try {
 				Thread.sleep(1);
