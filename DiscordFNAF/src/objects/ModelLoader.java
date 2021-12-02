@@ -101,10 +101,10 @@ public class ModelLoader {
 			IdxGroup[] faceVertexIndices = face.getFaceVertexIndices();
 			
 			//For loop for each index value (meaning three of them).
-			for (IdxGroup indValue: faceVertexIndices) {
-				indices.add(indValue.idxPos);
-				processFaceTexture(indValue, textures, textureArray); //Method call for processing the texture.
-				processFaceNormal(indValue, normals, normalArray); //Method call for processing the normal.
+			for (IdxGroup indexValue: faceVertexIndices) {
+				indices.add(indexValue.idxPos);
+				processFaceTexture(indexValue, textures, textureArray); //Method call for processing the texture.
+				processFaceNormal(indexValue, normals, normalArray); //Method call for processing the normal.
 			}
 		}
 		

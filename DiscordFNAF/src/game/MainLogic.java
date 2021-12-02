@@ -44,7 +44,7 @@ public class MainLogic implements GameLogic {
 		renderer.init(displayWindow);
 		
 		Mesh mesh = ModelLoader.loadMesh("resources/models/cube.obj");
-		Mesh mesh2 = ModelLoader.loadMesh("resources/models/Basketball.obj");
+		Mesh mesh2 = ModelLoader.loadMesh("resources/models/Basketball4.obj");
 		Mesh mesh3 = ModelLoader.loadMesh("resources/models/BasketballHoop.obj");
 		
 		Texture texture = new Texture("resources/textures/grassblock.png");
@@ -118,7 +118,7 @@ public class MainLogic implements GameLogic {
 				rotation = 0;
 			}
 			
-			gameItem.setRotation(rotation, rotation, rotation);
+			//gameItem.setRotation(rotation, rotation, rotation);
 		}
 	}
 	

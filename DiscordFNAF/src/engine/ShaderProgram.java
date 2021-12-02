@@ -73,15 +73,6 @@ public class ShaderProgram {
 			throw new Exception("Error linking shader. Info: " + glGetProgramInfoLog(programId, 1024));
 		}
 		
-		//Detaches both of the shaders after the linking process is completed.
-		if (vertexShaderId != 0) {
-			glDetachShader(programId, vertexShaderId);
-		}
-		
-		if (fragmentShaderId != 0) {
-			glDetachShader(programId, fragmentShaderId);
-		}
-		
 		glValidateProgram(programId); //Validates the correctness of the shader program.
 		
 		if (glGetProgrami(programId, GL_VALIDATE_STATUS) == 0) {
@@ -102,6 +93,16 @@ public class ShaderProgram {
 	//Cleanup method that deletes the shaders and the program.
 	public void cleanup() {
 		unbind();
+		
+		//Detaches both of the shaders after the linking process is completed.
+		if (vertexShaderId != 0) {
+			glDetachShader(programId, vertexShaderId);
+		}
+				
+		if (fragmentShaderId != 0) {
+			glDetachShader(programId, fragmentShaderId);
+		}
+		
 		glDeleteShader(vertexShaderId);
 		glDeleteShader(fragmentShaderId);
 		

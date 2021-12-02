@@ -11,6 +11,7 @@ package engine;
 import utility.Resources;
 
 import org.joml.Matrix4f;
+import org.lwjgl.opengl.GL11;
 
 import objects.GameItem;
 
@@ -31,6 +32,10 @@ public class MasterRenderer {
 	
 	//Initialises the master renderer (creates shader program and binds vao and vbo to be used).
 	public void init(DisplayManager displayWindow) throws Exception {
+		
+		//Removes all faces that would should not be rendered and will not be seen (such as the inside of models).
+		GL11.glEnable(GL11.GL_CULL_FACE);
+		GL11.glCullFace(GL11.GL_BACK);
 		
 		//Creates shader program and creates/links the both the vertex and fragment shaders.
 		shaderProgram = new ShaderProgram();
