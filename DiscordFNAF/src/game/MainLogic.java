@@ -44,7 +44,7 @@ public class MainLogic implements GameLogic {
 		renderer.init(displayWindow);
 		
 		Mesh mesh = ModelLoader.loadMesh("resources/models/cube.obj");
-		Mesh mesh2 = ModelLoader.loadMesh("resources/models/Basketball4.obj");
+		Mesh mesh2 = ModelLoader.loadMesh("resources/models/Basketball.obj");
 		Mesh mesh3 = ModelLoader.loadMesh("resources/models/BasketballHoop.obj");
 		
 		Texture texture = new Texture("resources/textures/grassblock.png");
@@ -64,8 +64,8 @@ public class MainLogic implements GameLogic {
 		gameItem2.setPosition(0, 0, -4);
 		
 		GameItem gameItem3 = new GameItem(mesh3);
-		gameItem3.setScale(0.4f);
-		gameItem3.setPosition(0, 0, -4);
+		gameItem3.setScale(0.2f);
+		gameItem3.setPosition(0, 0, -8);
 		
 		gameItems = new GameItem[] {gameItem, gameItem2, gameItem3};
 		
