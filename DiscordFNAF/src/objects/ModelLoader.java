@@ -2,7 +2,7 @@
  * Classname: ModelLoader
  * Programmer: Kyle Dryden
  * Version: Java 14 (JDK and JRE), LWJGL 3.2.3
- * Date: 1/12/2021
+ * Date: 21/06/2022
  * Description: Class used to load the OBJ model files. Uses private classes to create the faces and index groups. Creates
  * separate lists for the vertices (v), the textures (vt), the normals (vn), and the faces (f). When importing, the models
  * need to be triangulated to comply with the current implementation of the model loader.
@@ -39,26 +39,31 @@ public class ModelLoader {
 			
 			//Switch statement for the different types of vertices.
 			switch (information[0]) {
+			
+			//Simply a vertex co-ordinate value. Converted appropriately into a V3.
 			case "v":
 				Vector3f newVert = new Vector3f(Float.parseFloat(information[1]), 
 					Float.parseFloat(information[2]), 
 					Float.parseFloat(information[3]));
 				vertices.add(newVert);
 				break;
-				
+			
+			//Handles texture vertex co-ordinates for mapping appropriate textures.
 			case "vt":
 				Vector2f newText = new Vector2f(Float.parseFloat(information[1]),
 					Float.parseFloat(information[2]));
 				textures.add(newText);
 				break;
-				
+			
+			//Handles the vertex normal for the co-ordinates.	
 			case "vn":
 				Vector3f newNorm = new Vector3f(Float.parseFloat(information[1]),
 					Float.parseFloat(information[2]),
 					Float.parseFloat(information[3]));
 				normals.add(newNorm);
 				break;
-				
+			
+			//Handles all of the face values in the files. V, VT, and VNs are combined together to create the faces for a mesh.	
 			case "f":
 				Face newFace = new Face(information[1], information[2], information[3]);
 				faces.add(newFace);
@@ -78,7 +83,8 @@ public class ModelLoader {
 		mesh.loadVaos(positionArray, textureArray, normalArray);
 		return mesh;
 	}
-	 //Private method used to reorder the vertices. Mainly employed to separate the concerns and remove the number of parameters.
+	
+	//Private method used to reorder the vertices. Mainly employed to separate the concerns and remove the number of parameters.
 	private static float[] reorderVertices(List<Vector3f> vertices) {
 		float[] positionArray = new float[vertices.size() * 3];
 		int i = 0;
